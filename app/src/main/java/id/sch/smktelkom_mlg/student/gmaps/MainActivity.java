@@ -1,6 +1,6 @@
 package id.sch.smktelkom_mlg.student.gmaps;
 
-import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,10 +10,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback {
@@ -26,61 +25,20 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             .build();
     GoogleMap m_map;
     boolean mapReady = false;
-    MarkerOptions renton;
-    MarkerOptions kirkland;
-    MarkerOptions everett;
-    MarkerOptions lynnwood;
-    MarkerOptions montlake;
-    MarkerOptions kent;
-    MarkerOptions showare;
-
-    @Override
-    public Resources getResources() {
-        return super.getResources();
-    }
+    LatLng renton = new LatLng(47.489805, -122.120502);
+    LatLng kirkland = new LatLng(47.7301986, -122.1768858);
+    LatLng everett = new LatLng(47.978748, -122.202001);
+    LatLng lynnwood = new LatLng(47.819533, -122.32288);
+    LatLng montlake = new LatLng(47.7973733, -122.3281771);
+    LatLng kent = new LatLng(47.385938, -122.258212);
+    LatLng showare = new LatLng(47.38702, -122.23986);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        renton = new MarkerOptions()
-                .position(new LatLng(47.489805, -122.120502))
-                .title("Renton")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-
-        kirkland = new MarkerOptions()
-                .position(new LatLng(47.7301986, -122.1768858))
-                .title("Kirkland")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-
-        everett = new MarkerOptions()
-                .position(new LatLng(47.978748, -122.202001))
-                .title("Everett")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-
-        lynnwood = new MarkerOptions()
-                .position(new LatLng(47.819533, -122.32288))
-                .title("Lynnwood")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-
-        montlake = new MarkerOptions()
-                .position(new LatLng(47.7973733, -122.3281771))
-                .title("Montlake Terrace")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-
-        kent = new MarkerOptions()
-                .position(new LatLng(47.385938, -122.258212))
-                .title("Kent Valley")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-
-        showare = new MarkerOptions()
-                .position(new LatLng(47.38702, -122.23986))
-                .title("Showare Center")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
 
@@ -108,20 +66,16 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-        //MapsInitializer.initialize(getApplicationContext());
-        mapReady = true;
-        m_map = map;
-        m_map.addMarker(renton);
-        m_map.addMarker(kirkland);
-        m_map.addMarker(everett);
-        m_map.addMarker(lynnwood);
-        m_map.addMarker(montlake);
-        m_map.addMarker(kent);
-        m_map.addMarker(showare);
-        flyTo(SEATTLE);
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(SEATTLE));
+        //map.addPolyline(new PolylineOptions().geodesic(true).add(renton).add(kirkland).add(everett).add(lynnwood).add(montlake).add(kent).add(showare).add(renton));
+        //map.addPolygon(new PolygonOptions().add(renton, kirkland, everett, lynnwood).fillColor(Color.GREEN));
+        map.addCircle(new CircleOptions()
+                .center(renton)
+                .radius(5000)
+                .strokeColor(Color.GREEN)
+                .fillColor(Color.argb(64, 0, 255, 0)));
+
     }
 
-    private void flyTo(CameraPosition target) {
-        m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
-    }
+
 }
