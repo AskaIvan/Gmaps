@@ -34,5 +34,5 @@ public class MainActivity extends FragmentActivity implements OnStreetViewPanora
         panorama.animateTo(camera, 10000);
 
     }
-
+ 
 }
